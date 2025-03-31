@@ -1,0 +1,4 @@
+# Postgres
+# DATABASE_URL= postgres://postgres:your_password@localhost:5432/databas_name
+#mysql
+DATABASE_URL= mysql://root:your_password@localhost:3306/databas_name
