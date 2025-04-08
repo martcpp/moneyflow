@@ -3,6 +3,13 @@ name = "moneyflow"
 version = "0.1.0"
 edition = "2024"
 
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "moneyflow"
+path = "src/main.rs"
+
 [profile.dev.package.sqlx-macros]
 opt-level = 3
 
