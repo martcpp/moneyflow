@@ -1,4 +1,4 @@
-use moneyflow::run_server;
+use moneyflow::server::run_server;
 
 #[tokio::main]
 async fn main() {
