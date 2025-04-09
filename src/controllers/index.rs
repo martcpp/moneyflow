@@ -1,5 +1,4 @@
-use actix_web::{get, HttpResponse, Responder};
-
+use actix_web::{HttpResponse, Responder, get};
 
 #[get("/")]
 pub async fn index_url() -> HttpResponse {
@@ -8,5 +7,5 @@ pub async fn index_url() -> HttpResponse {
 
 #[get("/checker")]
 pub async fn checker() -> impl Responder {
- "Hello world!this the home page".to_string()
+    "Hello world!this the home page".to_string()
 }

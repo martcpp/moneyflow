@@ -1,14 +1,11 @@
 // Project: rust-webapp
 
 pub mod controllers;
-pub mod models;
-pub mod validator;
 pub mod dbcon;
+pub mod models;
 pub mod routers;
 pub mod server;
-
-
-
+pub mod validator;
 
 // #[get("/")]
 // async fn hello() -> impl Responder {
@@ -23,7 +20,3 @@ pub mod server;
 // async fn manual_hello() -> impl Responder {
 //     HttpResponse::Ok().body("Hey there!")
 // }
-
-
-
-

@@ -1,8 +1,7 @@
-use crate::controllers::{auth,profile,index};
-use auth::{login,logout};
-use profile::{get_profile,update_profile};
-use index::{index_url,checker};
-
+use crate::controllers::{auth, index, profile};
+use auth::{login, logout};
+use index::{checker, index_url};
+use profile::{get_profile, update_profile};
 
 pub fn router() -> actix_web::Scope {
     actix_web::web::scope("/api/v1")
@@ -12,5 +11,4 @@ pub fn router() -> actix_web::Scope {
         .service(logout)
         .service(get_profile)
         .service(update_profile)
-    
 }

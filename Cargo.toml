@@ -26,4 +26,5 @@ sqlx = { version = "0.8", features = [
 ] }
 
 dotenv = "0.15"
+validator = { version = "0.20.0", features = ["derive"] }
 # smol = "2.0.2"
