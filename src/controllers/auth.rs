@@ -3,8 +3,9 @@ use validator::Validate;
 
 use crate::validator::authvalidator::Loginvalidation;
 
-#[post("/auth/login")]
-pub async fn login(data: web::Json<Loginvalidation>) -> HttpResponse {
+#[post("/auth/register")]
+pub async fn register(data: web::Json<Loginvalidation>) -> HttpResponse {
+    // Perform validation
     match data.validate() {
         Ok(_) => {
             let content = &data.into_inner();
@@ -14,21 +15,14 @@ pub async fn login(data: web::Json<Loginvalidation>) -> HttpResponse {
     }
 }
 
+#[post("/auth/login")]
+pub async fn login() -> HttpResponse {
+    // Placeholder for login logic
+    // You can implement your login logic here
+    HttpResponse::Ok().body("Login endpoint")
+}
+
 #[post("/auth/logout")]
 pub async fn logout() -> HttpResponse {
     HttpResponse::Ok().body("Logout endpoint")
 }
-
-// #[post("/auth/login")]
-// pub async fn login(data: web::Json<Loginvalidation>) -> Result<HttpResponse, Error> {
-//     // Perform validation
-//     if let Err(e) = data.validate() {
-//         return Ok(HttpResponse::BadRequest().body(format!("Validation error: {:?}", e)));
-//     }
-
-//     // Extract and move the data
-//     let content = data.into_inner();
-
-//     // Return success
-//     Ok(HttpResponse::Ok().body(format!("Validated login: {:#?}", content)))
-// }
