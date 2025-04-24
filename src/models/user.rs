@@ -21,8 +21,7 @@ pub async fn check_user_email(db: &sqlx::PgPool, email: &str) -> bool {
     .await
     .unwrap()
     .is_some()
-   
-     
+    
 
 }
 
@@ -39,9 +38,9 @@ pub async fn check_user_email(db: &sqlx::PgPool, email: &str) -> bool {
 //     updated_at:chrono::NaiveDateTime,
 // }
 
-pub async fn create_user(db:&sqlx::PgPool, data:&Loginvalidation)->bool{
+pub async fn create_user(db:&sqlx::PgPool, data:&Loginvalidation)->Result<(), sqlx::Error> {
     let hashed_password = hash(&data.password, DEFAULT_COST).unwrap();
-    sqlx::query!(
+   let query = sqlx::query!(
         "
         INSERT INTO users (email, first_name, last_name, password)
         VALUES ($1, $2, $3, $4)
@@ -52,7 +51,13 @@ pub async fn create_user(db:&sqlx::PgPool, data:&Loginvalidation)->bool{
         hashed_password,
     
     ).execute(db)
-    .await
-    .is_ok()
+    .await;
+
+  
+    match query {
+        Ok(_) => Ok(()),
+        Err(e) => Err(e),
+    }
+    
 
 }

@@ -1,4 +1,5 @@
 use actix_web::{HttpResponse, post, web};
+use serde_json::json;
 use validator::Validate;
 use crate::server::AppState;
 use crate::validator::authvalidator::Loginvalidation;
@@ -14,11 +15,17 @@ pub async fn register(state: web::Data<AppState>, data: web::Json<Loginvalidatio
     // Perform validation
    
     if let Err(e) = data.validate() {
-        return HttpResponse::BadRequest().body(format!("Validation error: {:?}", e));
+        return HttpResponse::BadRequest().json(json!({
+            "status": "error",
+            "message": e.to_string()
+        }));
     }
 
     if check_user_email(&db, &data.email).await {
-        return HttpResponse::BadRequest().body(format!("User already exists: {:?}", data.email));
+        return HttpResponse::UnprocessableEntity().json(json!({
+            "status": "error",
+            "message": "Account with this email already exists"
+        }));
     }
 
    
@@ -29,10 +36,21 @@ pub async fn register(state: web::Data<AppState>, data: web::Json<Loginvalidatio
     // if user_exists {
     //     return HttpResponse::BadRequest().body(format!("User already exists {:?}", user_exists));
     // }
-   create_user(&db, &data).await;
- return HttpResponse::Created().body(format!("User created successfully: {:?}", data));
-    
-       
+   match create_user(&db, &data).await {
+        Ok(_) => {
+            return HttpResponse::Created().json(json!({
+                "status": "success",
+                "message": "Account created successfully"
+            }));
+        }
+        Err(e) => {
+            return HttpResponse::InternalServerError().json(json!({
+                "status": "error",
+                "message": format!("Failed to create user: {}", e)
+            }));
+        }
+    }
+
    }
     
    
