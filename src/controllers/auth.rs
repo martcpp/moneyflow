@@ -3,7 +3,7 @@ use serde_json::json;
 use validator::Validate;
 use crate::server::AppState;
 use crate::validator::authvalidator::Loginvalidation;
-use crate::models::user::{
+use crate::database::auth::{
     check_user_email,
     create_user,
 };
