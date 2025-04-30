@@ -2,18 +2,18 @@ use actix_web::{HttpResponse, post, web};
 use serde_json::json;
 use validator::Validate;
 use crate::server::AppState;
-use crate::validator::authvalidator::Loginvalidation;
+use crate::validator::authvalidator::{Registervalidation,Loginvalidation};
 use crate::database::auth::{
     check_user_email,
     create_user,
 };
 
 #[post("/auth/register")]
-pub async fn register(state: web::Data<AppState>, data: web::Json<Loginvalidation>) -> HttpResponse {
+pub async fn register(state: web::Data<AppState>, data: web::Json<Registervalidation>) -> HttpResponse {
     // Extract the database connection from the state
     let db = state.db.lock().await;
+
     // Perform validation
-   
     if let Err(e) = data.validate() {
         return HttpResponse::BadRequest().json(json!({
             "status": "error",
@@ -21,6 +21,7 @@ pub async fn register(state: web::Data<AppState>, data: web::Json<Loginvalidatio
         }));
     }
 
+    // Check if the email is already in use
     if check_user_email(&db, &data.email).await {
         return HttpResponse::UnprocessableEntity().json(json!({
             "status": "error",

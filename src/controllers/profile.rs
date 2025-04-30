@@ -1,32 +1,23 @@
-use actix_web::{HttpResponse, get, post, web};
+use actix_web::{get, post, web, HttpRequest, HttpResponse};
 use crate::server::AppState;
-use crate::database::profile::fetch_all_users;
+use crate::database::profile::{fetch_all_users,fetch_user_by_id,fetch_user_by_email};
 use serde_json::json;
 
-
+// Get all users
 #[get("/profile")]
 pub async fn get_profile(state:web::Data<AppState>) -> HttpResponse {
     let db = state.db.lock().await;
     let users = fetch_all_users(&db).await;
     match users {
         Ok(users) => {
-            return HttpResponse::Ok().json(users.iter()
-            .map(|user| {
-                // Convert the User struct to a JSON-compatible format
+            return HttpResponse::Ok().json(
                 json!({
                     "status": "success",
-                    "message": "Users fetched successfully",
-                    "user": {
-                    "id": user.id,
-                    "first_name": user.first_name,
-                    "last_name": user.last_name,
-                    "email": user.email,
-                    "balance": user.balance,
-                    "created_at": user.created_at,
-                    "updated_at": user.updated_at
-                }})
-            }).collect::<Vec<_>>());
+                    "data": users
+                })
+            );
         }
+
         Err(e) => {
             return HttpResponse::InternalServerError().json(json!({
                 "status": "error",
@@ -37,8 +28,39 @@ pub async fn get_profile(state:web::Data<AppState>) -> HttpResponse {
             // return HttpResponse::Ok().body(format!("Users: {:?}", users));
         }
    
+// Get a user profile by ID
+#[get("/profile/{id}")]
+/// Get a user profile by email
+pub async fn get_profile_by_id(state:web::Data<AppState>, path: web::Path<i64>) -> HttpResponse {
+    let db = state.db.lock().await;
+    let id= path.into_inner();
+    //println!("User ID: {:?}", id);
 
-#[post("/profile")]
-pub async fn update_profile() -> HttpResponse {
-    HttpResponse::Ok().body("Logout endpoint")
+    let user = fetch_user_by_id (&db,&id).await;
+    println!("User: {:?}", user);
+    match user {
+        Some(user_d) => {
+            return HttpResponse::Ok().json(
+                json!({
+                    "status": "success",
+                    "data": user_d
+                })
+            );
+        }
+        None => {
+            return HttpResponse::NotFound().json(json!({
+                "status": "error",
+                "message": "User not found"
+            }));
+        }
+    };
+
+}
+#[get("/profile/update")]
+/// Update user profile
+pub async fn update_profile(req:HttpRequest) -> HttpResponse {
+    // Extract the user ID from the request
+    let user_id = req.match_info();
+    println!("User ID: {:?}", user_id);
+    HttpResponse::Ok().body(format!("User ID: {:?}", user_id))
 }

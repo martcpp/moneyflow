@@ -1,4 +1,4 @@
-use crate::validator::authvalidator::Loginvalidation;
+use crate::validator::authvalidator::Registervalidation;
 use bcrypt::{DEFAULT_COST, hash};
 
 pub async fn check_user_email(db: &sqlx::PgPool, email: &str) -> bool {
@@ -15,7 +15,7 @@ pub async fn check_user_email(db: &sqlx::PgPool, email: &str) -> bool {
 
 
 
-pub async fn create_user(db:&sqlx::PgPool, data:&Loginvalidation)->Result<(), sqlx::Error> {
+pub async fn create_user(db:&sqlx::PgPool, data:&Registervalidation)->Result<(), sqlx::Error> {
     let hashed_password = hash(&data.password, DEFAULT_COST).unwrap();
    let query = sqlx::query!(
         "

@@ -1,5 +1,5 @@
-Add migration script here fro creating the user table {postgres}
-This is a placeholder for the migration script to create the user table
+-- Add migration script here fro creating the user table {postgres}
+-- This is a placeholder for the migration script to create the user table
 CREATE TABLE "users" (
     "id" BIGSERIAL PRIMARY KEY,
     "first_name" VARCHAR(255) NOT NULL,
