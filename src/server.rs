@@ -8,6 +8,7 @@ use tokio::sync::Mutex;
 pub struct AppState {
     // Add any shared state here
     pub db: Mutex<sqlx::PgPool>,
+    pub jwt_secret: String,
 }
 // use routers::router
 
@@ -22,6 +23,7 @@ pub async fn run_server() -> Result<Server, Error> {
                 .await
                 .unwrap(),
         ),
+        jwt_secret: var("JWT_SECRET").unwrap_or("test123".to_string()),
     });
 
     let server = HttpServer::new(move || {

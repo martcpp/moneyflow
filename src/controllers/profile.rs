@@ -58,9 +58,8 @@ pub async fn get_profile_by_id(state:web::Data<AppState>, path: web::Path<i64>) 
 }
 #[get("/profile/update")]
 /// Update user profile
-pub async fn update_profile(req:HttpRequest) -> HttpResponse {
+pub async fn update_profile() -> HttpResponse {
     // Extract the user ID from the request
-    let user_id = req.match_info();
-    println!("User ID: {:?}", user_id);
-    HttpResponse::Ok().body(format!("User ID: {:?}", user_id))
+  
+    HttpResponse::Ok().body(format!("User ID: {:?}", 1))
 }
