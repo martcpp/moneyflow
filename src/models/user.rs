@@ -1,8 +1,8 @@
+use serde::{Deserialize, Serialize};
 use sqlx::FromRow;
 use sqlx::types::chrono::NaiveDateTime;
-use serde::{Deserialize, Serialize};
 
-#[derive(Debug, FromRow,Serialize,Deserialize)]
+#[derive(Debug, FromRow, Serialize, Deserialize)]
 pub struct User {
     pub id: i64,
     pub first_name: String,
@@ -14,8 +14,6 @@ pub struct User {
     pub created_at: Option<NaiveDateTime>,
     pub updated_at: Option<NaiveDateTime>,
 }
-
-
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Claims {

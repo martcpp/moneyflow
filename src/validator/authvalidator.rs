@@ -1,8 +1,9 @@
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use validator::Validate;
 
-#[derive(Deserialize, Validate, Debug, Serialize)]
-// #[serde(rename_all = "camelCase")]
+#[derive(Deserialize, Validate)]
+//#[serde(rename_all = "camelCase")]
+#[serde(deny_unknown_fields)]
 pub struct Registervalidation {
     #[validate(email(message = "Invalid email format"))]
     pub email: String,
@@ -11,8 +12,10 @@ pub struct Registervalidation {
     pub first_name: String,
     pub last_name: String,
 }
-#[derive(Deserialize, Validate, Debug, Serialize)]
-#[serde(rename_all = "camelCase")]
+
+#[derive(Deserialize, Validate)]
+#[serde(deny_unknown_fields)]
+//#[serde(rename_all = "camelCase")]
 pub struct Loginvalidation {
     #[validate(email(message = "Invalid email format"))]
     pub email: String,

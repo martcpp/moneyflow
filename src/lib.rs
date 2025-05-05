@@ -1,12 +1,14 @@
 // Project: rust-webapp
 
 pub mod controllers;
+pub mod database;
 pub mod dbcon;
+pub mod middleware;
 pub mod models;
 pub mod routers;
 pub mod server;
 pub mod validator;
-pub mod database;
+// pub mod utils;
 
 // #[get("/")]
 // async fn hello() -> impl Responder {
