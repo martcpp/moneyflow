@@ -9,19 +9,15 @@ pub async fn get_profile(state: web::Data<AppState>) -> HttpResponse {
     let db = state.db.lock().await;
     let users = fetch_all_users(&db).await;
     match users {
-        Ok(users) => {
-            HttpResponse::Ok().json(json!({
-                "status": "success",
-                "data": users
-            }))
-        }
+        Ok(users) => HttpResponse::Ok().json(json!({
+            "status": "success",
+            "data": users
+        })),
 
-        Err(e) => {
-            HttpResponse::InternalServerError().json(json!({
-                "status": "error",
-                "message": format!("Failed to fetch users: {}", e)
-            }))
-        }
+        Err(e) => HttpResponse::InternalServerError().json(json!({
+            "status": "error",
+            "message": format!("Failed to fetch users: {}", e)
+        })),
     }
     // return HttpResponse::Ok().body(format!("Users: {:?}", users));
 }
@@ -37,18 +33,14 @@ pub async fn get_profile_by_id(state: web::Data<AppState>, path: web::Path<i64>)
     let user = fetch_user_by_id(&db, &id).await;
     println!("User: {:?}", user);
     match user {
-        Some(user_d) => {
-            HttpResponse::Ok().json(json!({
-                "status": "success",
-                "data": user_d
-            }))
-        }
-        None => {
-            HttpResponse::NotFound().json(json!({
-                "status": "error",
-                "message": "User not found"
-            }))
-        }
+        Some(user_d) => HttpResponse::Ok().json(json!({
+            "status": "success",
+            "data": user_d
+        })),
+        None => HttpResponse::NotFound().json(json!({
+            "status": "error",
+            "message": "User not found"
+        })),
     }
 }
 #[get("/profile/update")]

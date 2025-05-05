@@ -40,18 +40,14 @@ pub async fn register(
     //     return HttpResponse::BadRequest().body(format!("User already exists {:?}", user_exists));
     // }
     match create_user(&db, &data).await {
-        Ok(_) => {
-            HttpResponse::Created().json(json!({
-                "status": "success",
-                "message": "Account created successfully"
-            }))
-        }
-        Err(e) => {
-            HttpResponse::InternalServerError().json(json!({
-                "status": "error",
-                "message": format!("Failed to create user: {}", e)
-            }))
-        }
+        Ok(_) => HttpResponse::Created().json(json!({
+            "status": "success",
+            "message": "Account created successfully"
+        })),
+        Err(e) => HttpResponse::InternalServerError().json(json!({
+            "status": "error",
+            "message": format!("Failed to create user: {}", e)
+        })),
     }
 }
 

@@ -10,7 +10,6 @@ pub async fn fetch_all_users(db: &sqlx::PgPool) -> Result<Vec<User>, sqlx::Error
 }
 
 pub async fn fetch_user_by_id(db: &sqlx::PgPool, id: &i64) -> Option<User> {
-    
     sqlx::query_as!(User, "SELECT * FROM users WHERE id = $1", id)
         .fetch_optional(db)
         .await
@@ -18,7 +17,6 @@ pub async fn fetch_user_by_id(db: &sqlx::PgPool, id: &i64) -> Option<User> {
 }
 
 pub async fn fetch_user_by_email(db: &sqlx::PgPool, email: &str) -> Option<User> {
-    
     sqlx::query_as!(User, "SELECT * FROM users WHERE email ILIKE $1", email)
         .fetch_optional(db)
         .await
