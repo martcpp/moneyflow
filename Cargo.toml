@@ -32,3 +32,8 @@ chrono = { version = "0.4", features = ["serde"] }
 # smol = "2.0.2"
 jsonwebtoken = "9.3.1"
 uuid = { version = "1", features = ["v4"] }
+
+
+[package.metadata.sqlx]
+# Enables sqlx prepare to work without hitting the database later
+offline = true
