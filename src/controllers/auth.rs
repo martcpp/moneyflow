@@ -9,7 +9,7 @@ use serde_json::json;
 use std::time::SystemTime;
 use validator::Validate;
 
-#[post("/auth/register")]
+#[post("/register")]
 pub async fn register(
     state: web::Data<AppState>,
     data: web::Json<Registervalidation>,
@@ -51,7 +51,7 @@ pub async fn register(
     }
 }
 
-#[post("/auth/login")]
+#[post("/login")]
 pub async fn login(state: web::Data<AppState>, data: web::Json<Loginvalidation>) -> HttpResponse {
     let db = state.db.lock().await;
     // Perform validation
@@ -101,7 +101,7 @@ pub async fn login(state: web::Data<AppState>, data: web::Json<Loginvalidation>)
     }))
 }
 
-#[post("/auth/logout")]
+#[post("/logout")]
 pub async fn logout() -> HttpResponse {
     HttpResponse::Ok().body("Logout endpoint")
 }

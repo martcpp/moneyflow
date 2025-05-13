@@ -35,7 +35,7 @@ pub async fn verify_jwt(
         })));
     }
 
-    let token = auth_str.strip_suffix("Bearer ").unwrap();
+    let token = auth_str.strip_prefix("Bearer ").unwrap().trim();
     let state = req.app_data::<web::Data<AppState>>().unwrap();
     let key = DecodingKey::from_secret(state.jwt_secret.as_bytes());
 
