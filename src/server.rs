@@ -1,10 +1,12 @@
 use crate::routers;
 use actix_web::dev::Server;
 use actix_web::http::Error;
+use crate::middleware::auth::verify_jwt;
 use actix_web::{App, HttpServer, web};
 use dotenvy::dotenv;
 use std::env::var;
 use tokio::sync::Mutex;
+use actix_web::middleware::from_fn;
 
 // use actix_web::{
 //     web::{JsonConfig},HttpResponse, Responder,
@@ -53,6 +55,9 @@ pub async fn run_server() -> Result<Server, Error> {
             // .app_data(json_config())
             .app_data(state.clone())
             .service(routers::router())
+            .wrap(from_fn(verify_jwt))
+            // .service(routers::auth_router())
+            
     })
     .bind(("localhost", 8080))
     .unwrap()
