@@ -8,7 +8,7 @@ pub mod models;
 pub mod routers;
 pub mod server;
 pub mod validator;
-// pub mod utils;
+pub mod utils;
 
 // #[get("/")]
 // async fn hello() -> impl Responder {

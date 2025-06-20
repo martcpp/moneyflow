@@ -1,10 +1,11 @@
 use crate::database::profile::{fetch_all_users, fetch_user_by_id};
 use crate::server::AppState;
-use actix_web::{HttpResponse, get, web};
+use actix_web::{get, web, HttpRequest, HttpResponse};
 use serde_json::json;
+use crate::utils::helper::get_auth_id;
 
 // Get all users
-#[get("/profile")]
+#[get("/profile_all")]
 pub async fn get_profile(state: web::Data<AppState>) -> HttpResponse {
     let db = state.db.lock().await;
     let users = fetch_all_users(&db).await;
@@ -23,11 +24,12 @@ pub async fn get_profile(state: web::Data<AppState>) -> HttpResponse {
 }
 
 // Get a user profile by ID
-#[get("/profile/{id}")]
+#[get("/profile")]
 /// Get a user profile by email
-pub async fn get_profile_by_id(state: web::Data<AppState>, path: web::Path<i64>) -> HttpResponse {
+pub async fn get_profile_by_id(req: HttpRequest, state: web::Data<AppState>) -> HttpResponse {
     let db = state.db.lock().await;
-    let id = path.into_inner();
+    let id = get_auth_id(&req);
+
     //println!("User ID: {:?}", id);
 
     let user = fetch_user_by_id(&db, &id).await;

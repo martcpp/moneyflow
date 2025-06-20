@@ -82,7 +82,7 @@ pub async fn login(state: web::Data<AppState>, data: web::Json<Loginvalidation>)
             .duration_since(SystemTime::UNIX_EPOCH)
             .unwrap()
             .as_secs()
-            + 4 * 3600,
+            + 2 * 60,
     };
 
     let token = jsonwebtoken::encode(
