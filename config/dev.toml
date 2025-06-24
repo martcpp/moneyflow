@@ -1,0 +1,19 @@
+debug = true
+
+[database]
+username= "postgres"
+password= "your_password" # Change this to your actual password using environment variables or secure storage
+host= "localhost"
+port = 5432
+database_name = "moneyflow"
+
+[server]
+port = 8080
+host = "localhost"
+
+[logging]
+level = "debug"
+
+[auth]
+jwt_secret = "your_jwt_secret_key" # Change this to a secure key, ideally loaded from an environment variable
+expiration = "1h"

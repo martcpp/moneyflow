@@ -2,10 +2,8 @@ use crate::routers::router;
 use actix_web::dev::Server;
 use actix_web::http::Error;
 use actix_web::{App, HttpServer, web};
-use dotenvy::dotenv;
-use std::env::var;
 use tokio::sync::Mutex;
-use configuration::get_config;
+use crate::configuration::get_config;
 
 
 // use actix_web::{
@@ -37,10 +35,10 @@ pub struct AppState {
 // use routers::router
 
 pub async fn run_server() -> Result<Server, Error> {
-    //dotenv().ok();
     // Load environment variables from .env file
     let config = get_config().expect("Failed to load configuration");
     let database_url = config.database_url();
+
     // Initialize the database connection pool
     let state = web::Data::new(AppState {
         db: Mutex::new(
@@ -48,7 +46,7 @@ pub async fn run_server() -> Result<Server, Error> {
                 .await
                 .unwrap(),
         ),
-        jwt_secret: var("JWT_SECRET").unwrap_or("test123".to_string()),
+        jwt_secret: config.jwt_secret().to_string(),
     });
 
     let server = HttpServer::new(move || {
@@ -60,7 +58,7 @@ pub async fn run_server() -> Result<Server, Error> {
             // .service(routers::auth_router())
             
     })
-    .bind(("localhost", 8080))
+    .bind((config.server_host(), config.server_port()))
     .unwrap()
     .run();
     Ok(server)

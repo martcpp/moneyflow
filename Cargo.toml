@@ -33,7 +33,7 @@ chrono = { version = "0.4.41", features = ["serde"] }
 # smol = "2.0.2"
 jsonwebtoken = "9.3.1"
 uuid = { version = "1.17.0", features = ["v4"] }
-config = { version = "0.15.11", features = ["derive"] }
+config ="0.15.11" 
 
 
 [package.metadata.sqlx]
