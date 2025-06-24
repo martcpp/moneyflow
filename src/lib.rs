@@ -2,7 +2,7 @@
 
 pub mod controllers;
 pub mod database;
-pub mod dbcon;
+pub mod configuration;
 pub mod middleware;
 pub mod models;
 pub mod routers;

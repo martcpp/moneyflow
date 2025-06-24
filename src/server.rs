@@ -5,6 +5,7 @@ use actix_web::{App, HttpServer, web};
 use dotenvy::dotenv;
 use std::env::var;
 use tokio::sync::Mutex;
+use configuration::get_config;
 
 
 // use actix_web::{
@@ -36,13 +37,14 @@ pub struct AppState {
 // use routers::router
 
 pub async fn run_server() -> Result<Server, Error> {
-    dotenv().ok();
+    //dotenv().ok();
     // Load environment variables from .env file
-
+    let config = get_config().expect("Failed to load configuration");
+    let database_url = config.database_url();
     // Initialize the database connection pool
     let state = web::Data::new(AppState {
         db: Mutex::new(
-            sqlx::PgPool::connect(&var("DATABASE_URL").unwrap())
+            sqlx::PgPool::connect(&database_url)
                 .await
                 .unwrap(),
         ),

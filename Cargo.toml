@@ -15,7 +15,7 @@ opt-level = 3
 
 [dependencies]
 actix-web = "4"
-tokio = { version = "1.44.2", features = ["full"] }
+tokio = { version = "1.45.1", features = ["full"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 sqlx = { version = "0.8.3", features = [
@@ -23,15 +23,17 @@ sqlx = { version = "0.8.3", features = [
     "postgres",
     "tls-rustls",
     "chrono",
+    "uuid",
 ] }
 
 dotenvy = "0.15.7"
 validator = { version = "0.20.0", features = ["derive"] }
 bcrypt = "0.17.0"
-chrono = { version = "0.4", features = ["serde"] }
+chrono = { version = "0.4.41", features = ["serde"] }
 # smol = "2.0.2"
 jsonwebtoken = "9.3.1"
-uuid = { version = "1", features = ["v4"] }
+uuid = { version = "1.17.0", features = ["v4"] }
+config = { version = "0.15.11", features = ["derive"] }
 
 
 [package.metadata.sqlx]
